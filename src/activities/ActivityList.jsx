@@ -1,4 +1,4 @@
-import { useAuth } from "../auth/AuthContext";
+import { useParams } from "react-router-dom";
 import useQuery from "../api/useQuery";
 import useMutation from "../api/useMutation";
 
@@ -24,21 +24,21 @@ export default function ActivityList() {
 
 /** Shows a single activity. Logged-in users will also see a delete button. */
 function ActivityListItem({ activity }) {
-  const { token } = useAuth();
-  const {
-    mutate: deleteActivity,
-    loading,
-    error,
-  } = useMutation("DELETE", "/activities/" + activity.id, ["activities"]);
+//   const { token } = useAuth();
+//   const {
+//     mutate: deleteActivity,
+//     loading,
+//     error,
+//   } = useMutation("DELETE", "/activities/" + activity.id, ["activities"]);
 
-  return (
-    <li>
-      <p>{activity.name}</p>
-      {token && (
-        <button onClick={() => deleteActivity()}>
-          {loading ? "Deleting" : error ? error : "Delete"}
-        </button>
-      )}
-    </li>
+  // return (
+  //   <li>
+  //     <p>{activity.name}</p>
+  //     {token && (
+  //       <button onClick={() => deleteActivity()}>
+  //         {loading ? "Deleting" : error ? error : "Delete"}
+  //       </button>
+  //     )}
+  //   </li>
   );
 }

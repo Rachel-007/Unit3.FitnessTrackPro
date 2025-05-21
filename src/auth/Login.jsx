@@ -1,20 +1,19 @@
 import { useState } from "react";
-import { useAuth } from "./AuthContext";
-import { usePage } from "../layout/PageContext";
+import { Link, useNavigate } from "react-router-dom";
 
 /** A form that allows users to log into an existing account. */
-export default function Login() {
-  const { login } = useAuth();
-  const { setPage } = usePage();
-
+export default function Login({ login }) {
+  const navigate = useNavigate();
   const [error, setError] = useState(null);
 
-  const tryLogin = async (formData) => {
+  const tryLogin = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
     const username = formData.get("username");
     const password = formData.get("password");
     try {
       await login({ username, password });
-      setPage("activities");
+      navigate("/activities");
     } catch (e) {
       setError(e.message);
     }
@@ -23,7 +22,7 @@ export default function Login() {
   return (
     <>
       <h1>Log in to your account</h1>
-      <form action={tryLogin}>
+      <form onSubmit={tryLogin}>
         <label>
           Username
           <input type="text" name="username" required />
@@ -32,10 +31,10 @@ export default function Login() {
           Password
           <input type="password" name="password" required />
         </label>
-        <button>Login</button>
+        <button type="submit">Login</button>
         {error && <output>{error}</output>}
       </form>
-      <a onClick={() => setPage("register")}>Need an account? Register here.</a>
+      <Link to="/register">Don't have an account? Register here.</Link>
     </>
   );
 }
