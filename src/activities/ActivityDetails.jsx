@@ -17,7 +17,7 @@ function ActivityDetails() {
       .catch((error) => {
         console.error("Error fetching user data:", error);
       });
-  }, []);
+  }, [userid]);
 
   return (
     <div>
@@ -25,10 +25,10 @@ function ActivityDetails() {
       <p> {user?.activities?.name}</p>
       <Route path="/activities/:userid" />
       <h3>Activity Details</h3>
-      <p>Name: {user?.name}</p>
-      <p>Date: {user?.date}</p>
-      <p>Location: {user?.location}</p>
-      <p>Duration: {user?.duration}</p>
+      <p>Id: {user?.id}</p>
+      <p>Activity: {user?.activity?.name}</p>
+      <p>Description: {user?.description}</p>
+
       <Link to={`/activities/${userid}/edit`}>Edit Activity</Link>
     </div>
   );

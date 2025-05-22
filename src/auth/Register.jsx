@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useAuth } from "./AuthContext";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 /** A form that allows users to register for a new account */
 export default function Register() {
-  const { register } = useParams();
+  const { register } = useAuth();
+  const navigate = useNavigate();
 
   const [error, setError] = useState(null);
 
@@ -13,7 +14,7 @@ export default function Register() {
     const password = formData.get("password");
     try {
       await register({ username, password });
-      useAuth("activities");
+      navigate("/activities");
     } catch (e) {
       setError(e.message);
     }
@@ -33,10 +34,16 @@ export default function Register() {
         </label>
         <button>Register</button>
         {error && <output>{error}</output>}
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/login");
+          }}
+        >
+          Already have an account? Log in here.
+        </a>
       </form>
-      <a onClick={() => setPage("login")}>
-        Already have an account? Log in here.
-      </a>
     </>
   );
 }

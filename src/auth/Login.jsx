@@ -34,7 +34,7 @@ export default function Login({ login }) {
         <button type="submit">Login</button>
         {error && <output>{error}</output>}
       </form>
-      <Link to="/register">Don't have an account? Register here.</Link>
+      <Link to="/register">Don&#39;t have an account? Register here.</Link>
     </>
   );
 }

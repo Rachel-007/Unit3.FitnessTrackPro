@@ -4,7 +4,7 @@
  * all of which update the token in state.
  */
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useState } from "react";
 
 import { API } from "../api/ApiContext";
 
@@ -45,8 +45,4 @@ export function AuthProvider({ children }) {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) throw Error("useAuth must be used within AuthProvider");
-  return context;
-}
+// useAuth hook moved to a separate file: useAuth.js
