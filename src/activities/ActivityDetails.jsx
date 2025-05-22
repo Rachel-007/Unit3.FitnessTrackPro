@@ -1,37 +1,48 @@
-import axios from "axios";
-import { Route, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext.jsx";
+import useQuery from "api/useQuery.js";
+import { useMutation } from "..api/useMutation.js";
 
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+export default function ActivityDetails() {
+  const { token } = useAuth();
+  const [id] = useParams();
+  const {
+    data: activity,
+    loading,
+    error,
+  } = useQuery(`/activities/${id}`, "activity");
 
-function ActivityDetails() {
-  const { userid } = useParams();
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    axios(`https://jsonplaceholder.typicode.com/users/${userid}`)
-      .then((data) => {
-        console.log(data.data);
-        setUser(data.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching user data:", error);
-      });
-  }, [userid]);
+  if (loading) return <p>Loading...</p>;
+  if (error || !activity) {
+    return <p>Sorry! {error}</p>;
+  }
 
   return (
-    <div>
-      <h2> ActivityDetails for {userid?.name} </h2>
-      <p> {user?.activities?.name}</p>
-      <Route path="/activities/:userid" />
-      <h3>Activity Details</h3>
-      <p>Id: {user?.id}</p>
-      <p>Activity: {user?.activity?.name}</p>
-      <p>Description: {user?.description}</p>
-
-      <Link to={`/activities/${userid}/edit`}>Edit Activity</Link>
-    </div>
+    <>
+      <h1>{activity.name}</h1>
+      <p>{activity.creatorName}</p>
+      <p>{activity.description}</p>
+      {token && <DeleteButton id={activity.id} />}
+    </>
   );
 }
 
-export default ActivityDetails;
+function DeleteButton({ id }) {
+  const navigate = useNavigate();
+  const {
+    mutate: deleteActivity,
+    loading,
+    error,
+  } = useMutation("DELETE", "/activities/" + id, ["activities", "activity"]);
+
+  const onDeleteActivity = async () => {
+    const success = await deleteActivity();
+    if (success) navigate("/activities");
+  };
+
+  return (
+    <button onClick={onDeleteActivity}>
+      {loading ? "Deleting" : error ?? "Delete"}
+    </button>
+  );
+}

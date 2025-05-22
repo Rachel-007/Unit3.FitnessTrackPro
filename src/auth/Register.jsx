@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "./AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 /** A form that allows users to register for a new account */
 export default function Register() {
@@ -34,15 +34,7 @@ export default function Register() {
         </label>
         <button>Register</button>
         {error && <output>{error}</output>}
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            navigate("/login");
-          }}
-        >
-          Already have an account? Log in here.
-        </a>
+        <Link to="/login"> Already have an account? Log in here.</Link>
       </form>
     </>
   );
