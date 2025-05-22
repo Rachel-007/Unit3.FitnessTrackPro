@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext.jsx";
-import useQuery from "api/useQuery.js";
-import { useMutation } from "..api/useMutation.js";
+import useQuery from "../api/useQuery.js";
+import useMutation from "../api/useMutation.js";
 
 export default function ActivityDetails() {
   const { token } = useAuth();
@@ -20,7 +20,7 @@ export default function ActivityDetails() {
   return (
     <>
       <h1>{activity.name}</h1>
-      <p>{activity.creatorName}</p>
+      <p>by{activity.creatorName}</p>
       <p>{activity.description}</p>
       {token && <DeleteButton id={activity.id} />}
     </>
