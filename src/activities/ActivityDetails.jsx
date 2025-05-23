@@ -5,7 +5,7 @@ import useMutation from "../api/useMutation.js";
 
 export default function ActivityDetails() {
   const { token } = useAuth();
-  const [id] = useParams();
+  const { id } = useParams();
   const {
     data: activity,
     loading,
